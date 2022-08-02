@@ -49,5 +49,5 @@ func (data *Bytes) Bytes() uint64 {
 
 // String format to string
 func (data Bytes) String() string {
-	return humanize.Bytes(uint64(data))
+	return humanize.IBytes(uint64(data))
 }
