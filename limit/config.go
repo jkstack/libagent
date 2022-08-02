@@ -1,26 +1,44 @@
 package limit
 
-import "github.com/jkstack/agent/utils"
+import (
+	"encoding/json"
+
+	"github.com/jkstack/agent/utils"
+)
 
 type DiskLimit struct {
 	// mountpoint eg: /
-	MountPoint string `json:"mount_point" yaml:"mount_point"`
+	MountPoint string `json:"mount_point" yaml:"mount_point" kv:"mount_point"`
 	// read bytes
-	ReadBytes uint64 `json:"read_bytes" yaml:"read_bytes"`
+	ReadBytes uint64 `json:"read_bytes" yaml:"read_bytes" kv:"read_bytes"`
 	// write bytes
-	WriteBytes uint64 `json:"write_bytes" yaml:"write_bytes"`
+	WriteBytes uint64 `json:"write_bytes" yaml:"write_bytes" kv:"write_bytes"`
 	// read iops
-	ReadIOPS uint64 `json:"read_iops" yaml:"read_iops"`
+	ReadIOPS uint64 `json:"read_iops" yaml:"read_iops" kv:"read_iops"`
 	// write iops
-	WriteIOPS uint64 `json:"write_iops" yaml:"write_iops"`
+	WriteIOPS uint64 `json:"write_iops" yaml:"write_iops" kv:"write_iops"`
 }
 
 // Config limit configure
 type Config struct {
 	// cpu usage 100 means 1 core
-	CpuQuota int64 `json:"cpu_quota" yaml:"cpu_quota"`
+	CpuQuota int64 `json:"cpu_quota" yaml:"cpu_quota" kv:"cpu_quota"`
 	// memory size limit in bytes
-	Memory utils.Bytes `json:"memory_limit" yaml:"memory_limit"`
+	Memory utils.Bytes `json:"memory_limit" yaml:"memory_limit" kv:"memory_limit"`
 	// limit of disk
-	Disks []DiskLimit `json:"disk_limit" yaml:"disk_limit"`
+	Disks diskLimits `json:"disk_limit" yaml:"disk_limit" kv:"disk_limit"`
+}
+
+type diskLimits []DiskLimit
+
+func (limits diskLimits) MarshalKV() (string, error) {
+	data, err := json.Marshal(limits)
+	if err != nil {
+		return "", err
+	}
+	return string(data), nil
+}
+
+func (limits *diskLimits) UnmarshalKV(data string) error {
+	return json.Unmarshal([]byte(data), limits)
 }
