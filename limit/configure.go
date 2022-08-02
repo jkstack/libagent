@@ -19,8 +19,8 @@ type DiskLimit struct {
 	WriteIOPS uint64 `json:"write_iops" yaml:"write_iops" kv:"write_iops"`
 }
 
-// Config limit configure
-type Config struct {
+// Configure limit configure
+type Configure struct {
 	// cpu usage 100 means 1 core
 	CpuQuota int64 `json:"cpu_quota" yaml:"cpu_quota" kv:"cpu_quota"`
 	// memory size limit in bytes

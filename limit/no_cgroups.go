@@ -3,5 +3,5 @@
 
 package limit
 
-func Do(agentName string, cfg *Config) {
+func (cfg *Configure) Do(agentName string) {
 }

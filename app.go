@@ -42,6 +42,8 @@ func (app *app) start() {
 	app.initLogging()
 	defer logging.Flush()
 
+	app.a.Configure().Limit.Do(app.a.AgentName())
+
 	defer utils.Recover("app_start")
 
 	if app.a.Configure().Monitor.Enabled {

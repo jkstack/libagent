@@ -37,5 +37,5 @@ type Configure struct {
 	} `json:"monitor" yaml:"monitor" kv:"monitor"`
 
 	// limit config
-	Limit limit.Config `json:"limit" yaml:"limit" kv:"limit"`
+	Limit limit.Configure `json:"limit" yaml:"limit" kv:"limit"`
 }
