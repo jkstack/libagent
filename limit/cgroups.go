@@ -107,8 +107,13 @@ func buildLinuxResource(cfg *Configure) (specs.LinuxResources, bool) {
 					disk.MountPoint, dev, humanize.IBytes(disk.WriteIOPS))
 			}
 		}
-		ret.BlockIO = &block
-		want = true
+		if len(block.ThrottleReadBpsDevice) > 0 ||
+			len(block.ThrottleWriteBpsDevice) > 0 ||
+			len(block.ThrottleReadIOPSDevice) > 0 ||
+			len(block.ThrottleWriteIOPSDevice) > 0 {
+			ret.BlockIO = &block
+			want = true
+		}
 	}
 	return ret, want
 }

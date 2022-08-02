@@ -14,5 +14,6 @@ func TestCGroups(t *testing.T) {
 		MountPoint: "/dev/sdb",
 		ReadBytes:  1024, // 1KB
 	})
+	// want root permission
 	cfg.Do("testing")
 }
