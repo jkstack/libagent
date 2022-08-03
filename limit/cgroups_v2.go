@@ -13,7 +13,7 @@ func (cfg *Configure) doV2(agentName string) {
 		return
 	}
 	logging.Info("use cgroups_v2")
-	group, err := v2.NewSystemd("/jkstack/agent", agentName+".slice", os.Getpid(), &v2.Resources{})
+	group, err := v2.NewSystemd("/", agentName+".slice", -1, &v2.Resources{})
 	if err != nil {
 		logging.Warning("can not create cgroup: %v", err)
 		return
@@ -21,6 +21,11 @@ func (cfg *Configure) doV2(agentName string) {
 	limitCPUV2(group, cfg.CpuQuota)
 	limitMemoryV2(group, int64(cfg.Memory))
 	limitDiskV2(group, cfg.Disks)
+	err = group.AddProc(uint64(os.Getpid()))
+	if err != nil {
+		logging.Warning("can not add current pid: %v", err)
+		return
+	}
 }
 
 func limitCPUV2(group *v2.Manager, limit int64) {
