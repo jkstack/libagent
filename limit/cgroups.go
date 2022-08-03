@@ -32,17 +32,19 @@ func (cfg *Configure) doV2(agentName string) {
 }
 
 func (cfg *Configure) doV1(agentName string) {
-	cf, want := buildLinuxResource(cfg)
-	if !want {
+	if !wantCGroup(cfg) {
 		return
 	}
 	logging.Info("use cgroups_v1")
 	dir := "/jkstack/agent/" + agentName
-	group, err := cgroups.New(cgroups.V1, cgroups.StaticPath(dir), &cf)
+	group, err := cgroups.New(cgroups.V1, cgroups.StaticPath(dir), nil)
 	if err != nil {
 		logging.Warning("can not create cgroup %s: %v", dir, err)
 		return
 	}
+	limitCPU(group, cfg.CpuQuota)
+	limitMemory(group, int64(cfg.Memory))
+	limitDisk(group, cfg.Disks)
 	err = group.Add(cgroups.Process{
 		Pid: os.Getpid(),
 	})
@@ -52,70 +54,91 @@ func (cfg *Configure) doV1(agentName string) {
 	}
 }
 
-func buildLinuxResource(cfg *Configure) (specs.LinuxResources, bool) {
-	var ret specs.LinuxResources
-	want := false
+func wantCGroup(cfg *Configure) bool {
 	if cfg.CpuQuota > 0 {
-		cpu := int64(cfg.CpuQuota) * 1000
-		ret.CPU = &specs.LinuxCPU{
-			Quota: &cpu,
-		}
-		logging.Info("set cpu_quota to %d%%", cfg.CpuQuota)
-		want = true
+		return true
 	}
 	if cfg.Memory > 0 {
-		mem := int64(cfg.Memory.Bytes())
-		ret.Memory = &specs.LinuxMemory{
-			Limit: &mem,
-		}
-		logging.Info("set memory_limit to %s", cfg.Memory.String())
-		want = true
+		return true
 	}
 	if len(cfg.Disks) > 0 {
-		mnt := readMnt()
-		var block specs.LinuxBlockIO
-		for _, disk := range cfg.Disks {
-			dev := mnt[disk.MountPoint]
-			if len(dev) == 0 {
-				logging.Warning("can not get dev of mount_point %s", disk.MountPoint)
-				continue
-			}
-			write := func(value uint64, target []specs.LinuxThrottleDevice) []specs.LinuxThrottleDevice {
-				var device specs.LinuxThrottleDevice
-				device.Major, device.Minor = parseDev(dev)
-				device.Rate = value
-				return append(target, device)
-			}
-			if disk.ReadBytes > 0 {
-				block.ThrottleReadBpsDevice = write(disk.ReadBytes, block.ThrottleReadBpsDevice)
-				logging.Info("set read_bytes limit by mount_point %s(%s): %s",
-					disk.MountPoint, dev, humanize.IBytes(disk.ReadBytes))
-			}
-			if disk.WriteBytes > 0 {
-				block.ThrottleWriteBpsDevice = write(disk.WriteBytes, block.ThrottleWriteBpsDevice)
-				logging.Info("set write_bytes limit by mount_point %s(%s): %s",
-					disk.MountPoint, dev, humanize.IBytes(disk.WriteBytes))
-			}
-			if disk.ReadIOPS > 0 {
-				block.ThrottleReadIOPSDevice = write(disk.ReadIOPS, block.ThrottleReadIOPSDevice)
-				logging.Info("set read_iops limit by mount_point %s(%s): %s",
-					disk.MountPoint, dev, humanize.IBytes(disk.ReadIOPS))
-			}
-			if disk.WriteIOPS > 0 {
-				block.ThrottleWriteIOPSDevice = write(disk.WriteIOPS, block.ThrottleWriteIOPSDevice)
-				logging.Info("set write_iops limit by mount_point %s(%s): %s",
-					disk.MountPoint, dev, humanize.IBytes(disk.WriteIOPS))
-			}
+		return true
+	}
+	return false
+}
+
+func limitCPU(group cgroups.Cgroup, limit int64) {
+	cpu := limit * 1000
+	err := group.Update(&specs.LinuxResources{
+		CPU: &specs.LinuxCPU{
+			Quota: &cpu,
+		},
+	})
+	if err != nil {
+		logging.Warning("can not set cpu_quota to %d%%: %v", limit, err)
+		return
+	}
+	logging.Info("set cpu_quota to %d%%", limit)
+}
+
+func limitMemory(group cgroups.Cgroup, limit int64) {
+	err := group.Update(&specs.LinuxResources{
+		Memory: &specs.LinuxMemory{
+			Limit: &limit,
+		},
+	})
+	if err != nil {
+		logging.Warning("can not set memory_limit to %s: %v",
+			humanize.IBytes(uint64(limit)), err)
+		return
+	}
+	logging.Info("set memory_limit to %s", humanize.IBytes(uint64(limit)))
+}
+
+func limitDisk(group cgroups.Cgroup, limits diskLimits) {
+	mnt := readMnt()
+	var block specs.LinuxBlockIO
+	for _, disk := range limits {
+		dev := mnt[disk.MountPoint]
+		if len(dev) == 0 {
+			logging.Warning("can not get dev of mount_point %s", disk.MountPoint)
+			continue
 		}
-		if len(block.ThrottleReadBpsDevice) > 0 ||
-			len(block.ThrottleWriteBpsDevice) > 0 ||
-			len(block.ThrottleReadIOPSDevice) > 0 ||
-			len(block.ThrottleWriteIOPSDevice) > 0 {
-			ret.BlockIO = &block
-			want = true
+		write := func(value uint64, target []specs.LinuxThrottleDevice) []specs.LinuxThrottleDevice {
+			var device specs.LinuxThrottleDevice
+			device.Major, device.Minor = parseDev(dev)
+			device.Rate = value
+			return append(target, device)
+		}
+		if disk.ReadBytes > 0 {
+			block.ThrottleReadBpsDevice = write(disk.ReadBytes, block.ThrottleReadBpsDevice)
+			logging.Info("  - set read_bytes limit by mount_point %s(%s): %s",
+				disk.MountPoint, dev, humanize.IBytes(disk.ReadBytes))
+		}
+		if disk.WriteBytes > 0 {
+			block.ThrottleWriteBpsDevice = write(disk.WriteBytes, block.ThrottleWriteBpsDevice)
+			logging.Info("  - set write_bytes limit by mount_point %s(%s): %s",
+				disk.MountPoint, dev, humanize.IBytes(disk.WriteBytes))
+		}
+		if disk.ReadIOPS > 0 {
+			block.ThrottleReadIOPSDevice = write(disk.ReadIOPS, block.ThrottleReadIOPSDevice)
+			logging.Info("  - set read_iops limit by mount_point %s(%s): %s",
+				disk.MountPoint, dev, humanize.IBytes(disk.ReadIOPS))
+		}
+		if disk.WriteIOPS > 0 {
+			block.ThrottleWriteIOPSDevice = write(disk.WriteIOPS, block.ThrottleWriteIOPSDevice)
+			logging.Info("  - set write_iops limit by mount_point %s(%s): %s",
+				disk.MountPoint, dev, humanize.IBytes(disk.WriteIOPS))
 		}
 	}
-	return ret, want
+	err := group.Update(&specs.LinuxResources{
+		BlockIO: &block,
+	})
+	if err != nil {
+		logging.Warning("can not set disk_limit: %v", err)
+		return
+	}
+	logging.Info("set disk_limit successed")
 }
 
 // mount_point => dev
