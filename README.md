@@ -1,6 +1,6 @@
 # libagent
 
-[![natpass](https://github.com/jkstack/libagent/actions/workflows/build.yml/badge.svg)](https://github.com/jkstack/libagent/actions/workflows/build.yml)
+[![libagent](https://github.com/jkstack/libagent/actions/workflows/build.yml/badge.svg)](https://github.com/jkstack/libagent/actions/workflows/build.yml)
 [![license](https://img.shields.io/github/license/jkstack/libagent)](https://opensource.org/licenses/MIT)
 [![Go Report Card](https://goreportcard.com/badge/github.com/jkstack/libagent)](https://goreportcard.com/report/github.com/jkstack/libagent)
 [![go-mod](https://img.shields.io/github/go-mod/go-version/jkstack/libagent)](https://github.com/jkstack/libagent)
