@@ -1,3 +1,6 @@
+//go:build !windows && !aix && !darwin
+// +build !windows,!aix,!darwin
+
 package limit
 
 import (
