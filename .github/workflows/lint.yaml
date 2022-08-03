@@ -1,4 +1,4 @@
-name: libagent lint
+name: code lint
 
 on:
   pull_request:
