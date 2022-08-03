@@ -37,7 +37,7 @@ func (cfg *Configure) doV1(agentName string) {
 	}
 	logging.Info("use cgroups_v1")
 	dir := "/jkstack/agent/" + agentName
-	group, err := cgroups.New(cgroups.V1, cgroups.StaticPath(dir), nil)
+	group, err := cgroups.New(cgroups.V1, cgroups.StaticPath(dir), &specs.LinuxResources{})
 	if err != nil {
 		logging.Warning("can not create cgroup %s: %v", dir, err)
 		return
