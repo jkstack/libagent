@@ -3,7 +3,6 @@ package limit
 import (
 	"encoding/json"
 
-	"github.com/containerd/cgroups"
 	"github.com/jkstack/agent/utils"
 )
 
@@ -43,13 +42,4 @@ func (limits diskLimits) MarshalKV() (string, error) {
 
 func (limits *diskLimits) UnmarshalKV(data string) error {
 	return json.Unmarshal([]byte(data), limits)
-}
-
-// Do set cgroups limit
-func (cfg *Configure) Do(agentName string) {
-	if cgroups.Mode() == cgroups.Unified {
-		cfg.doV2(agentName)
-		return
-	}
-	cfg.doV1(agentName)
 }
