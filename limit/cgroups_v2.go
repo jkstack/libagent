@@ -71,22 +71,22 @@ func limitDiskV2(group *v2.Manager, limits diskLimits) {
 		}
 		if disk.ReadBytes > 0 {
 			write(v2.ReadBPS, disk.ReadBytes)
-			logging.Info("  - set read_bytes limit by mount_point %s: %s",
+			logging.Info("  - set read_bytes limit by dev [%s]: %s",
 				disk.Dev, humanize.IBytes(disk.ReadBytes))
 		}
 		if disk.WriteBytes > 0 {
 			write(v2.WriteBPS, disk.WriteBytes)
-			logging.Info("  - set write_bytes limit by mount_point %s: %s",
+			logging.Info("  - set write_bytes limit by dev [%s]: %s",
 				disk.Dev, humanize.IBytes(disk.WriteBytes))
 		}
 		if disk.ReadIOPS > 0 {
 			write(v2.ReadIOPS, disk.ReadIOPS)
-			logging.Info("  - set read_iops limit by mount_point %s: %s",
+			logging.Info("  - set read_iops limit by dev [%s]: %s",
 				disk.Dev, humanize.IBytes(disk.ReadIOPS))
 		}
 		if disk.WriteIOPS > 0 {
 			write(v2.WriteIOPS, disk.WriteIOPS)
-			logging.Info("  - set write_iops limit by mount_point %s: %s",
+			logging.Info("  - set write_iops limit by dev [%s]: %s",
 				disk.Dev, humanize.IBytes(disk.WriteIOPS))
 		}
 	}
