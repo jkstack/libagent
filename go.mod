@@ -9,7 +9,7 @@ require (
 	github.com/gorilla/websocket v1.4.2
 	github.com/jkstack/anet v0.0.0-20220701093727-7f4683edc043
 	github.com/jkstack/jkframe v1.0.5
-	github.com/kardianos/service v1.2.1
+	github.com/kardianos/service v1.2.2-0.20220428125717-29f8c79c511b
 	github.com/opencontainers/runtime-spec v1.0.2
 	github.com/shirou/gopsutil v2.21.11+incompatible
 	github.com/shirou/gopsutil/v3 v3.22.7
