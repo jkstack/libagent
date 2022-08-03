@@ -7,8 +7,8 @@ import (
 )
 
 type DiskLimit struct {
-	// mountpoint eg: /
-	MountPoint string `json:"mount_point" yaml:"mount_point" kv:"mount_point"`
+	// device version of lsblk command eg: 8:0
+	Dev string `json:"dev" yaml:"dev" kv:"dev"`
 	// read bytes
 	ReadBytes uint64 `json:"read_bytes" yaml:"read_bytes" kv:"read_bytes"`
 	// write bytes
