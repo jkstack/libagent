@@ -1,6 +1,8 @@
-name: code lint
+name: build
 
 on:
+  push:
+    branches: [ master ]
   pull_request:
     branches: [ master ]
 
@@ -10,7 +12,13 @@ jobs:
     strategy:
       matrix:
         os:
-          - ubuntu-latest
+          - ubuntu-18.04
+          - ubuntu-20.04
+          - ubuntu-22.04
+          - windows-2019
+          - windows-2022
+          - macos-11
+          - macos-12
         go:
           - '1.17'
           - '1.18'
@@ -29,3 +37,9 @@ jobs:
           golint -set_exit_status ./...
           go install github.com/gordonklaus/ineffassign@latest
           ineffassign ./...
+
+      - name: Test
+        run: go test -v ./...
+
+      - name: Build
+        run: go build ./...

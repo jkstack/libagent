@@ -1,5 +1,5 @@
-//go:build !windows && !aix
-// +build !windows,!aix
+//go:build !windows && !aix && !darwin
+// +build !windows,!aix,!darwin
 
 package limit
 
