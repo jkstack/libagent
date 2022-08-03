@@ -18,7 +18,7 @@ func (cfg *Configure) doV2(agentName string) {
 		logging.Warning("can not create cgroup: %v", err)
 		return
 	}
-	limitCPUV2(group, cfg.CpuQuota)
+	limitCPUV2(group, cfg.CPUQuota)
 	limitMemoryV2(group, int64(cfg.Memory))
 	limitDiskV2(group, cfg.Disks)
 	err = group.AddProc(uint64(os.Getpid()))

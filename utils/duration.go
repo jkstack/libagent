@@ -4,6 +4,7 @@ import (
 	"time"
 )
 
+// Duration custom duration struct
 type Duration time.Duration
 
 // MarshalKV marshal duration

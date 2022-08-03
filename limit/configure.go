@@ -7,8 +7,9 @@ import (
 	"github.com/jkstack/agent/utils"
 )
 
+// DiskLimit disk limit configure
 type DiskLimit struct {
-	// device version of lsblk command eg: 8:0
+	// device number of lsblk command eg: 8:0
 	Dev string `json:"dev" yaml:"dev" kv:"dev"`
 	// read bytes
 	ReadBytes uint64 `json:"read_bytes" yaml:"read_bytes" kv:"read_bytes"`
@@ -23,7 +24,7 @@ type DiskLimit struct {
 // Configure limit configure
 type Configure struct {
 	// cpu usage 100 means 1 core
-	CpuQuota int64 `json:"cpu_quota" yaml:"cpu_quota" kv:"cpu_quota"`
+	CPUQuota int64 `json:"cpu_quota" yaml:"cpu_quota" kv:"cpu_quota"`
 	// memory size limit in bytes
 	Memory utils.Bytes `json:"memory_limit" yaml:"memory_limit" kv:"memory_limit"`
 	// limit of disk

@@ -25,7 +25,7 @@ func (cfg *Configure) doV1(agentName string) {
 		logging.Warning("can not create cgroup %s: %v", dir, err)
 		return
 	}
-	limitCPUV1(group, cfg.CpuQuota)
+	limitCPUV1(group, cfg.CPUQuota)
 	limitMemoryV1(group, int64(cfg.Memory))
 	limitDiskV1(group, cfg.Disks)
 	err = group.Add(cgroups.Process{
@@ -38,7 +38,7 @@ func (cfg *Configure) doV1(agentName string) {
 }
 
 func wantCGroup(cfg *Configure) bool {
-	if cfg.CpuQuota > 0 {
+	if cfg.CPUQuota > 0 {
 		return true
 	}
 	if cfg.Memory > 0 {

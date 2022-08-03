@@ -7,7 +7,7 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-// Bytes yaml bytes
+// Bytes custom bytes struct
 type Bytes uint64
 
 // MarshalJSON marshal bytes by json

@@ -12,6 +12,8 @@ import (
 	runtime "github.com/jkstack/jkframe/utils"
 )
 
+// RewriteServer rewrite server configure
+//   - use $... to set value by envionment variables
 func (cfg *Configure) RewriteServer() {
 	cfg.Server = strings.TrimSpace(cfg.Server)
 	if len(cfg.Server) == 0 {
@@ -28,6 +30,10 @@ func (cfg *Configure) RewriteServer() {
 	}
 }
 
+// RewriteID rewrite agent id configure
+//   - use $IP to set value by ip address in interface to connect server
+//   - use $HOSTNAME to set value by hostname
+//   - use $... to set value by envionment variables
 func (cfg *Configure) RewriteID() {
 	cfg.RewriteServer()
 	cfg.ID = strings.TrimSpace(cfg.ID)
@@ -58,6 +64,7 @@ func (cfg *Configure) RewriteID() {
 	logging.Info("now agent id is %s", cfg.ID)
 }
 
+// SetAgentID reset agent id by value
 func (cfg *Configure) SetAgentID(id string) {
 	cfg.ID = id
 }
