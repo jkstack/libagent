@@ -88,14 +88,14 @@ func limitDiskV1(group cgroups.Cgroup, limits diskLimits) {
 			return append(target, device)
 		}
 		if disk.ReadBytes > 0 {
-			block.ThrottleReadBpsDevice = write(disk.ReadBytes, block.ThrottleReadBpsDevice)
+			block.ThrottleReadBpsDevice = write(disk.ReadBytes.Bytes(), block.ThrottleReadBpsDevice)
 			logging.Info("  - set read_bytes limit by dev [%s]: %s",
-				disk.Dev, humanize.IBytes(disk.ReadBytes))
+				disk.Dev, disk.ReadBytes.String())
 		}
 		if disk.WriteBytes > 0 {
-			block.ThrottleWriteBpsDevice = write(disk.WriteBytes, block.ThrottleWriteBpsDevice)
+			block.ThrottleWriteBpsDevice = write(disk.WriteBytes.Bytes(), block.ThrottleWriteBpsDevice)
 			logging.Info("  - set write_bytes limit by dev [%s]: %s",
-				disk.Dev, humanize.IBytes(disk.WriteBytes))
+				disk.Dev, disk.WriteBytes.String())
 		}
 		if disk.ReadIOPS > 0 {
 			block.ThrottleReadIOPSDevice = write(disk.ReadIOPS, block.ThrottleReadIOPSDevice)

@@ -73,14 +73,14 @@ func limitDiskV2(group *v2.Manager, limits diskLimits) {
 			})
 		}
 		if disk.ReadBytes > 0 {
-			write(v2.ReadBPS, disk.ReadBytes)
+			write(v2.ReadBPS, disk.ReadBytes.Bytes())
 			logging.Info("  - set read_bytes limit by dev [%s]: %s",
-				disk.Dev, humanize.IBytes(disk.ReadBytes))
+				disk.Dev, disk.ReadBytes.String())
 		}
 		if disk.WriteBytes > 0 {
-			write(v2.WriteBPS, disk.WriteBytes)
+			write(v2.WriteBPS, disk.WriteBytes.Bytes())
 			logging.Info("  - set write_bytes limit by dev [%s]: %s",
-				disk.Dev, humanize.IBytes(disk.WriteBytes))
+				disk.Dev, disk.WriteBytes.Bytes())
 		}
 		if disk.ReadIOPS > 0 {
 			write(v2.ReadIOPS, disk.ReadIOPS)
