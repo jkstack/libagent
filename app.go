@@ -7,7 +7,7 @@ import (
 	rt "runtime"
 	"time"
 
-	"github.com/jkstack/agent/utils"
+	"github.com/jkstack/agent/internal/utils"
 	"github.com/jkstack/anet"
 	"github.com/jkstack/jkframe/logging"
 )

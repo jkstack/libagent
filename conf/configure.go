@@ -1,8 +1,8 @@
 package conf
 
 import (
+	"github.com/jkstack/agent/internal/utils"
 	"github.com/jkstack/agent/limit"
-	"github.com/jkstack/agent/utils"
 )
 
 // Configure common configure
