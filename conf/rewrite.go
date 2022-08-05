@@ -7,7 +7,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/jkstack/agent/utils"
+	"github.com/jkstack/agent/internal/utils"
 	"github.com/jkstack/jkframe/logging"
 	runtime "github.com/jkstack/jkframe/utils"
 )

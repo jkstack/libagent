@@ -8,8 +8,8 @@ import (
 	"time"
 
 	"github.com/gorilla/websocket"
-	"github.com/jkstack/agent/hostinfo"
-	"github.com/jkstack/agent/utils"
+	"github.com/jkstack/agent/internal/hostinfo"
+	"github.com/jkstack/agent/internal/utils"
 	"github.com/jkstack/anet"
 	"github.com/jkstack/jkframe/logging"
 	"github.com/shirou/gopsutil/cpu"

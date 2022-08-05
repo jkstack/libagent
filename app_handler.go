@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/gorilla/websocket"
-	"github.com/jkstack/agent/utils"
+	"github.com/jkstack/agent/internal/utils"
 	"github.com/jkstack/anet"
 	"github.com/jkstack/jkframe/logging"
 )

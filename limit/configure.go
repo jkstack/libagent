@@ -3,7 +3,7 @@ package limit
 import (
 	"encoding/json"
 
-	"github.com/jkstack/agent/utils"
+	"github.com/jkstack/agent/internal/utils"
 )
 
 // DiskLimit disk limit configure
