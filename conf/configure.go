@@ -5,37 +5,37 @@ import (
 	"github.com/jkstack/agent/limit"
 )
 
-// Configure common configure
+// Configure 基础配置
 type Configure struct {
-	// agent id, if empty generate by server
-	//   $HOSTNAME: use agent id by hostname
-	//   $IP: use agent id by ip of connect server
-	//   ${env}: use envionment variables
+	// agent id, 为空则为服务器端分配
+	//   $HOSTNAME: 使用当前主机名作为agent id
+	//   $IP: 使用连接到服务器端的网卡IP作为agent id
+	//   ${env}: 使用环境变量作为agent id
 	ID string `json:"id" yaml:"id" kv:"id"`
 
-	// server address
+	// server 服务器端地址，支持环境变量
 	Server string `json:"server" yaml:"server" kv:"server"`
 
-	// logging config
+	// 日志相关配置
 	Log struct {
-		// log targets, supported: stdout, file
+		// 日志输出目标，支持stdout和file
 		Target logTarget `json:"target" yaml:"target" kv:"target"`
-		// log file path
+		// 日志文件保存路径
 		Dir string `json:"dir" yaml:"dir" kv:"dir"`
-		// rotate size for file
+		// 日志文件滚动生成时的文件大小
 		Size utils.Bytes `json:"size" yaml:"size" kv:"size"`
-		// rotate file count for save
+		// 日志文件滚动生成时的保留数量
 		Rotate int `json:"rotate" yaml:"rotate" kv:"rotate"`
 	} `json:"log" yaml:"log" kv:"log"`
 
-	// monitor config
+	// 监控配置
 	Monitor struct {
-		// enable report data
+		// 是否启用监控数据上报
 		Enabled bool `json:"enabled" yaml:"enabled" kv:"enabled"`
-		// report interval
+		// 监控数据上报间隔
 		Interval utils.Duration `json:"interval" yaml:"interval" kv:"interval"`
 	} `json:"monitor" yaml:"monitor" kv:"monitor"`
 
-	// limit config
+	// 资源限制配置
 	Limit limit.Configure `json:"limit" yaml:"limit" kv:"limit"`
 }

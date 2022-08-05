@@ -10,11 +10,14 @@ import (
 	"github.com/jkstack/agent/internal/utils"
 	"github.com/jkstack/anet"
 	"github.com/jkstack/jkframe/logging"
+	"github.com/shirou/gopsutil/v3/process"
 )
 
 type app struct {
 	a         App
 	shortExit int
+	startup   int64
+	process   *process.Process
 	chRead    chan *anet.Msg
 	chWrite   chan *anet.Msg
 
@@ -25,12 +28,16 @@ type app struct {
 	// monitor
 	inPackets, inBytes   uint64
 	outPackets, outBytes uint64
+	reconnectCount       int
 }
 
 func newApp(a App) *app {
 	ctx, cancel := context.WithCancel(context.Background())
+	p, _ := process.NewProcess(int32(os.Getpid()))
 	return &app{
 		a:       a,
+		process: p,
+		startup: time.Now().Unix(),
 		chRead:  make(chan *anet.Msg, 1024*1024),
 		chWrite: make(chan *anet.Msg, 1024*1024),
 		ctx:     ctx,
@@ -67,11 +74,16 @@ func (app *app) start() {
 			logging.Flush()
 			os.Exit(255)
 		}
+
+		begin := time.Now()
+
 		conn, err := app.connect()
 		if err != nil {
 			app.shortExit++
 			continue
 		}
+
+		deferCallback("on_connect", app.a.OnConnect)
 
 		ctx, cancel := context.WithCancel(app.ctx)
 		go app.read(ctx, cancel, conn)
@@ -79,7 +91,14 @@ func (app *app) start() {
 		go app.keepalive(ctx, conn)
 
 		<-ctx.Done()
+
+		if time.Since(begin).Seconds() < 1 {
+			app.shortExit++
+		}
 		conn.Close()
+
+		deferCallback("dis_connect", app.a.OnDisconnect)
+		app.reconnectCount++
 	}
 }
 

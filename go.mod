@@ -7,9 +7,9 @@ require (
 	github.com/containerd/cgroups v1.0.4
 	github.com/dustin/go-humanize v1.0.0
 	github.com/gorilla/websocket v1.5.0
-	github.com/jkstack/anet v0.0.0-20220701093727-7f4683edc043
+	github.com/jkstack/anet v0.0.0-20220805084406-b2b99e224f87
 	github.com/jkstack/jkframe v1.0.5
-	github.com/kardianos/service v1.2.2-0.20220428125717-29f8c79c511b
+	github.com/kardianos/service v1.2.1
 	github.com/opencontainers/runtime-spec v1.0.2
 	github.com/shirou/gopsutil v3.21.11+incompatible
 	github.com/shirou/gopsutil/v3 v3.22.7
@@ -29,5 +29,5 @@ require (
 	github.com/tklauser/go-sysconf v0.3.10 // indirect
 	github.com/tklauser/numcpus v0.5.0 // indirect
 	github.com/yusufpapurcu/wmi v1.2.2 // indirect
-	golang.org/x/sys v0.0.0-20220731174439-a90be440212d // indirect
+	golang.org/x/sys v0.0.0-20220804214406-8e32c043e418 // indirect
 )

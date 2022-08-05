@@ -4,49 +4,60 @@ import (
 	"context"
 
 	"github.com/jkstack/agent/conf"
+	"github.com/jkstack/agent/internal/utils"
 	"github.com/jkstack/anet"
 )
 
-// App app interface
+// App app 接口，每一个agent必须实现以下接口
 type App interface {
-	// get agent name
+	// 获取当前agent编号
+	ID() string
+	// 获取当前agent名称
 	AgentName() string
-	// get agent version
+	// 获取当前agent版本号
 	Version() string
-	// get configure file path
+	// 获取配置文件路径
 	ConfDir() string
-	// get agent configure
+	// 获取libagent所需配置
+	// 该对象必须是一个相对全局作用域的变量，在后续执行过程中该变量将会被更新
 	Configure() *conf.Configure
-	// rewrite configure file
-	RewriteConfigure() error
 
-	// connect callback
+	// 重置配置文件时的回调函数，在以下情况下会回调
+	//   - 连接成功后服务端分配了新的agent id
+	OnRewriteConfigure() error
+	// 连接成功后的回调函数
 	OnConnect()
-	// disconnect callback
+	// 断开连接时的回调函数
 	OnDisconnect()
-	// report callback
+	// 触发上报监控信息时的回调函数，该回调一般被用来上报一些自定义监控数据
 	OnReportMonitor()
-	// message received
+	// 收到数据包时的回调函数
 	OnMessage(*anet.Msg) error
 
-	// loop write
+	// 返回数据包时的回调函数，该函数必须是一个循环，
+	// 且在有数据需要返回时将其放入第二个参数中的队列内
 	LoopWrite(context.Context, chan *anet.Msg) error
 }
 
-// RegisterService register system service
+func deferCallback(name string, fn func()) {
+	defer utils.Recover(name)
+	fn()
+}
+
+// RegisterService 注册系统服务
 func RegisterService(app App) error {
 	svc := newService(app)
 	return svc.Install()
 }
 
-// UnregisterService unregister system service
+// UnregisterService 卸载系统服务
 func UnregisterService(app App) error {
 	svc := newService(app)
 	svc.Stop()
 	return svc.Uninstall()
 }
 
-// Run run agent
+// Run 运行agent
 func Run(app App) error {
 	svc := newService(app)
 	return svc.Run()
