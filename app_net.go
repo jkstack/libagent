@@ -100,7 +100,7 @@ func (app *app) waitHandshake(conn *websocket.Conn, timeout time.Duration) error
 	}
 	if len(msg.Handshake.ID) > 0 {
 		app.a.Configure().SetAgentID(msg.Handshake.ID)
-		app.a.RewriteConfigure()
+		app.a.OnRewriteConfigure()
 	}
 	return nil
 }
