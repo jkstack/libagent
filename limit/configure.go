@@ -3,7 +3,7 @@ package limit
 import (
 	"encoding/json"
 
-	"github.com/jkstack/agent/internal/utils"
+	"github.com/jkstack/libagent/internal/utils"
 )
 
 // DiskLimit 磁盘限制配置

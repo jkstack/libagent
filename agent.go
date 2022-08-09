@@ -3,9 +3,9 @@ package agent
 import (
 	"context"
 
-	"github.com/jkstack/agent/conf"
-	"github.com/jkstack/agent/internal/utils"
 	"github.com/jkstack/anet"
+	"github.com/jkstack/libagent/conf"
+	"github.com/jkstack/libagent/internal/utils"
 )
 
 // App app 接口，每一个agent必须实现以下接口

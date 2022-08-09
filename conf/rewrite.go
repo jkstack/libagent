@@ -7,9 +7,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/jkstack/agent/internal/utils"
 	"github.com/jkstack/jkframe/logging"
 	runtime "github.com/jkstack/jkframe/utils"
+	"github.com/jkstack/libagent/internal/utils"
 )
 
 // RewriteServer 重写服务器地址配置，每次连接时自动调用

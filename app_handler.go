@@ -6,9 +6,9 @@ import (
 	"time"
 
 	"github.com/gorilla/websocket"
-	"github.com/jkstack/agent/internal/utils"
 	"github.com/jkstack/anet"
 	"github.com/jkstack/jkframe/logging"
+	"github.com/jkstack/libagent/internal/utils"
 )
 
 func (app *app) read(ctx context.Context, cancel context.CancelFunc, conn *websocket.Conn) {

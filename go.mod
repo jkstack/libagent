@@ -1,4 +1,4 @@
-module github.com/jkstack/agent
+module github.com/jkstack/libagent
 
 go 1.17
 
