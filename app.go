@@ -60,9 +60,11 @@ func (app *app) start() {
 	go app.a.LoopWrite(app.ctx, app.chWrite)
 	go app.debug(app.ctx)
 
-	var nextSleep time.Duration
+	i := 0
+	nextSleep := time.Second
 	for {
-		if nextSleep > 0 {
+		i++
+		if i > 1 {
 			time.Sleep(nextSleep)
 			nextSleep <<= 1
 			if nextSleep > 30*time.Second {
