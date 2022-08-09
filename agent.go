@@ -10,8 +10,6 @@ import (
 
 // App app 接口，每一个agent必须实现以下接口
 type App interface {
-	// 获取当前agent编号
-	ID() string
 	// 获取当前agent名称
 	AgentName() string
 	// 获取当前agent版本号
