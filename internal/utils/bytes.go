@@ -42,6 +42,21 @@ func (data *Bytes) UnmarshalYAML(value *yaml.Node) error {
 	return nil
 }
 
+// MarshalKV marshal bytes by kv
+func (data *Bytes) MarshalKV() (string, error) {
+	return humanize.IBytes(uint64(*data)), nil
+}
+
+// UnmarshalKV unmarshal bytes by kv
+func (data *Bytes) UnmarshalKV(value string) error {
+	n, err := humanize.ParseBytes(value)
+	if err != nil {
+		return err
+	}
+	*data = Bytes(n)
+	return nil
+}
+
 // Bytes get bytes data
 func (data *Bytes) Bytes() uint64 {
 	return uint64(*data)
