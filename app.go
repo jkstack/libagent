@@ -89,6 +89,7 @@ func (app *app) start() {
 
 		deferCallback("dis_connect", app.a.OnDisconnect)
 		app.reconnectCount++
+		nextSleep = time.Second
 	}
 }
 
