@@ -66,8 +66,8 @@ func (app *app) start() {
 		if i > 1 {
 			time.Sleep(nextSleep)
 			nextSleep <<= 1
-			if nextSleep > 10*time.Second {
-				nextSleep = 10 * time.Second
+			if nextSleep > 5*time.Second {
+				nextSleep = 5 * time.Second
 			}
 		}
 
