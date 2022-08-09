@@ -1,8 +1,8 @@
 package conf
 
 import (
-	"github.com/jkstack/agent/internal/utils"
-	"github.com/jkstack/agent/limit"
+	"github.com/jkstack/libagent/internal/utils"
+	"github.com/jkstack/libagent/limit"
 )
 
 // Configure 基础配置
