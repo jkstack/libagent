@@ -24,6 +24,7 @@ func (app *app) connect() (*websocket.Conn, error) {
 	app.a.Configure().RewriteServer()
 	conn, _, err := dialer.Dial(fmt.Sprintf("ws://%s/ws/agent", app.a.Configure().Server), nil)
 	if err != nil {
+		logging.Error("dial: %v", err)
 		return nil, err
 	}
 
