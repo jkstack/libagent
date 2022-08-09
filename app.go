@@ -14,12 +14,11 @@ import (
 )
 
 type app struct {
-	a         App
-	shortExit int
-	startup   int64
-	process   *process.Process
-	chRead    chan *anet.Msg
-	chWrite   chan *anet.Msg
+	a       App
+	startup int64
+	process *process.Process
+	chRead  chan *anet.Msg
+	chWrite chan *anet.Msg
 
 	// runtime
 	ctx    context.Context
@@ -67,21 +66,13 @@ func (app *app) start() {
 		if i > 1 {
 			time.Sleep(nextSleep)
 			nextSleep <<= 1
-			if nextSleep > 30*time.Second {
-				nextSleep = 30 * time.Second
+			if nextSleep > 10*time.Second {
+				nextSleep = 10 * time.Second
 			}
 		}
-		if app.shortExit > 20 {
-			logging.Error("short exit more than 20 times")
-			logging.Flush()
-			os.Exit(255)
-		}
-
-		begin := time.Now()
 
 		conn, err := app.connect()
 		if err != nil {
-			app.shortExit++
 			continue
 		}
 
@@ -94,9 +85,6 @@ func (app *app) start() {
 
 		<-ctx.Done()
 
-		if time.Since(begin).Seconds() < 1 {
-			app.shortExit++
-		}
 		conn.Close()
 
 		deferCallback("dis_connect", app.a.OnDisconnect)
