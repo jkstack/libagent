@@ -8,7 +8,7 @@ require (
 	github.com/dustin/go-humanize v1.0.0
 	github.com/gorilla/websocket v1.5.0
 	github.com/jkstack/anet v0.0.0-20220805084406-b2b99e224f87
-	github.com/jkstack/jkframe v1.0.5
+	github.com/jkstack/jkframe v1.0.6
 	github.com/kardianos/service v1.2.1
 	github.com/opencontainers/runtime-spec v1.0.2
 	github.com/shirou/gopsutil v3.21.11+incompatible
