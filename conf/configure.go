@@ -1,7 +1,7 @@
 package conf
 
 import (
-	"github.com/jkstack/libagent/internal/utils"
+	"github.com/jkstack/jkframe/utils"
 	"github.com/jkstack/libagent/limit"
 )
 
