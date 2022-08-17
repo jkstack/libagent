@@ -8,12 +8,11 @@ require (
 	github.com/dustin/go-humanize v1.0.0
 	github.com/gorilla/websocket v1.5.0
 	github.com/jkstack/anet v0.0.0-20220805084406-b2b99e224f87
-	github.com/jkstack/jkframe v1.0.6
+	github.com/jkstack/jkframe v1.0.7
 	github.com/kardianos/service v1.2.1
 	github.com/opencontainers/runtime-spec v1.0.2
 	github.com/shirou/gopsutil v3.21.11+incompatible
 	github.com/shirou/gopsutil/v3 v3.22.7
-	gopkg.in/yaml.v3 v3.0.1
 )
 
 require (
@@ -30,4 +29,5 @@ require (
 	github.com/tklauser/numcpus v0.5.0 // indirect
 	github.com/yusufpapurcu/wmi v1.2.2 // indirect
 	golang.org/x/sys v0.0.0-20220804214406-8e32c043e418 // indirect
+	gopkg.in/yaml.v3 v3.0.1 // indirect
 )

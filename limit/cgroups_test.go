@@ -3,7 +3,7 @@ package limit
 import (
 	"testing"
 
-	"github.com/jkstack/libagent/internal/utils"
+	"github.com/jkstack/jkframe/utils"
 )
 
 func TestCGroups(t *testing.T) {
