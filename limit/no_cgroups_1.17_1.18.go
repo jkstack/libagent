@@ -4,12 +4,6 @@
 
 package limit
 
-import (
-	"math"
-	"runtime"
-	"runtime/debug"
-)
-
 // Do set cgroups limit
 func (cfg *Configure) Do(_ string) {
 }
