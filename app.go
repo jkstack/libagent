@@ -21,8 +21,9 @@ type app struct {
 	chWrite chan *anet.Msg
 
 	// runtime
-	ctx    context.Context
-	cancel context.CancelFunc
+	ctx       context.Context
+	cancel    context.CancelFunc
+	connected bool
 
 	// monitor
 	inPackets, inBytes   uint64
@@ -76,6 +77,7 @@ func (app *app) start() {
 			continue
 		}
 
+		app.connected = true
 		deferCallback("on_connect", app.a.OnConnect)
 
 		ctx, cancel := context.WithCancel(app.ctx)
@@ -85,6 +87,7 @@ func (app *app) start() {
 
 		<-ctx.Done()
 
+		app.connected = false
 		conn.Close()
 
 		deferCallback("dis_connect", app.a.OnDisconnect)

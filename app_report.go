@@ -13,6 +13,9 @@ import (
 func (app *app) report() {
 	for {
 		time.Sleep(app.a.Configure().Monitor.Interval.Duration())
+		if !app.connected {
+			continue
+		}
 		app.a.OnReportMonitor()
 		app.chWrite <- app.buildReport()
 	}
