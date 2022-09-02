@@ -108,7 +108,7 @@ func (app *app) initLogging() {
 		cfg.WriteStdout = false
 	}
 	if !cfg.WriteStdout && !cfg.WriteFile {
-		fmt.Printf("[WARN]no log target set, default to stdout")
+		fmt.Printf("[WARN]no log target set, default to stdout\n")
 		cfg.WriteStdout = true
 	}
 	cfg.Dir = app.a.Configure().Log.Dir
