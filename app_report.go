@@ -59,6 +59,9 @@ func (app *app) buildReport() *anet.Msg {
 	info.OutBytes = app.outBytes
 	info.ReconnectCount = app.reconnectCount
 
+	info.ReadChanSize = len(app.chRead)
+	info.WriteChanSize = len(app.chWrite)
+
 	msg.AgentInfo = &info
 	return &msg
 }
