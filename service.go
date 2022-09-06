@@ -5,4 +5,5 @@ type builtinService interface {
 	Uninstall() error
 	Run() error
 	Stop() error
+	Platform() string
 }

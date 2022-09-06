@@ -2,6 +2,7 @@ package agent
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/jkstack/anet"
 	"github.com/jkstack/libagent/conf"
@@ -45,6 +46,8 @@ func deferCallback(name string, fn func()) {
 // RegisterService 注册系统服务
 func RegisterService(app App) error {
 	svc := newService(app)
+	fmt.Printf("service name: %s\n", app.AgentName())
+	fmt.Printf("platform: %s\n", svc.Platform())
 	return svc.Install()
 }
 

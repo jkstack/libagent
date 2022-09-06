@@ -133,3 +133,7 @@ func (svr *svr) Execute(args []string, r <-chan svc.ChangeRequest, changes chan<
 	changes <- svc.Status{State: svc.StopPending}
 	return false, 0
 }
+
+func (svr *svr) Platform() string {
+	return "windows-service"
+}
