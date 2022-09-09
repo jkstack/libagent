@@ -7,7 +7,7 @@ import (
 	rt "runtime"
 
 	"github.com/jkstack/jkframe/utils"
-	"github.com/kardianos/service"
+	"github.com/lwch/service"
 )
 
 type svr struct {
