@@ -45,7 +45,10 @@ func deferCallback(name string, fn func()) {
 
 // RegisterService 注册系统服务
 func RegisterService(app App) error {
-	svc := newService(app)
+	svc, err := newService(app)
+	if err != nil {
+		return err
+	}
 	fmt.Printf("service name: %s\n", app.AgentName())
 	fmt.Printf("platform: %s\n", svc.Platform())
 	return svc.Install()
@@ -53,13 +56,37 @@ func RegisterService(app App) error {
 
 // UnregisterService 卸载系统服务
 func UnregisterService(app App) error {
-	svc := newService(app)
+	svc, err := newService(app)
+	if err != nil {
+		return err
+	}
 	svc.Stop()
 	return svc.Uninstall()
 }
 
 // Run 运行agent
 func Run(app App) error {
-	svc := newService(app)
+	svc, err := newService(app)
+	if err != nil {
+		return err
+	}
 	return svc.Run()
+}
+
+// Start 启动agent
+func Start(app App) error {
+	svc, err := newService(app)
+	if err != nil {
+		return err
+	}
+	return svc.Start()
+}
+
+// Stop 停止agent
+func Stop(app App) error {
+	svc, err := newService(app)
+	if err != nil {
+		return err
+	}
+	return svc.Stop()
 }

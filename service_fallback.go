@@ -6,7 +6,6 @@ package agent
 import (
 	rt "runtime"
 
-	"github.com/jkstack/jkframe/utils"
 	"github.com/lwch/service"
 )
 
@@ -14,7 +13,7 @@ type svr struct {
 	app *app
 }
 
-func newService(app App) builtinService {
+func newService(app App) (builtinService, error) {
 	var user string
 	var depends []string
 	if rt.GOOS != "windows" {
@@ -29,9 +28,7 @@ func newService(app App) builtinService {
 		Arguments:    []string{"-conf", app.ConfDir()},
 		Dependencies: depends,
 	}
-	svr, err := service.New(&svr{app: newApp(app)}, appCfg)
-	utils.Assert(err)
-	return svr
+	return service.New(&svr{app: newApp(app)}, appCfg)
 }
 
 func (svr *svr) Start(s service.Service) error {

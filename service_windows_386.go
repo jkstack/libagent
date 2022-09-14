@@ -9,7 +9,6 @@ import (
 	"github.com/btcsuite/winsvc/mgr"
 	"github.com/btcsuite/winsvc/svc"
 	"github.com/jkstack/jkframe/logging"
-	"github.com/jkstack/jkframe/utils"
 )
 
 type svr struct {
@@ -18,14 +17,16 @@ type svr struct {
 	exepath   string
 }
 
-func newService(app App) builtinService {
+func newService(app App) (builtinService, error) {
 	exepath, err := os.Executable()
-	utils.Assert(err)
+	if err != nil {
+		return nil, err
+	}
 	return &svr{
 		agentName: app.AgentName(),
 		app:       newApp(app),
 		exepath:   exepath,
-	}
+	}, nil
 }
 
 func (svr *svr) Install() error {
@@ -78,6 +79,25 @@ func (svr *svr) Uninstall() error {
 
 func (svr *svr) Run() error {
 	return svc.Run(svr.agentName, svr)
+}
+
+func (svr *svr) Start() error {
+	m, err := mgr.Connect()
+	if err != nil {
+		logging.Error("mgr connect: %v", err)
+		return err
+	}
+	defer m.Disconnect()
+	s, err := m.OpenService(svr.agentName)
+	if err != nil {
+		return fmt.Errorf("could not access service: %v", err)
+	}
+	defer s.Close()
+	err = s.Start([]string{"p1", "p2", "p3"})
+	if err != nil {
+		return fmt.Errorf("could not start service: %v", err)
+	}
+	return nil
 }
 
 func (svr *svr) Stop() error {
