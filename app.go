@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"os"
+	"path/filepath"
 	rt "runtime"
 	"time"
 
@@ -112,6 +113,14 @@ func (app *app) initLogging() {
 		cfg.WriteStdout = true
 	}
 	cfg.Dir = app.a.Configure().Log.Dir
+	if !filepath.IsAbs(cfg.Dir) {
+		dir, err := os.Executable()
+		if err != nil {
+			fmt.Printf("can not change log.dir to absolute path: %v\n", err)
+		} else {
+			cfg.Dir = filepath.Join(filepath.Dir(dir), cfg.Dir)
+		}
+	}
 	cfg.Name = app.a.AgentName()
 	cfg.Size = int64(app.a.Configure().Log.Size.Bytes())
 	cfg.Rotate = app.a.Configure().Log.Rotate
