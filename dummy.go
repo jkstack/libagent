@@ -12,54 +12,65 @@ import (
 
 var errUnsupported = errors.New("unsupported")
 
-type dummy struct {
+// DummyApp 用于系统服务注册的空App
+type DummyApp struct {
 	name    string
 	confDir string
 }
 
 // NewDummyApp 创建一个dummy的APP用于系统服务注册等
-func NewDummyApp(name, confDir string) *dummy {
+func NewDummyApp(name, confDir string) *DummyApp {
 	dir, err := filepath.Abs(confDir)
 	utils.Assert(err)
-	return &dummy{
+	return &DummyApp{
 		name:    name,
 		confDir: dir,
 	}
 }
 
-func (dm *dummy) AgentName() string {
+// AgentName agent名称
+func (dm *DummyApp) AgentName() string {
 	return dm.name
 }
 
-func (dm *dummy) Version() string {
+// Version 版本号（unset）
+func (dm *DummyApp) Version() string {
 	return "unset"
 }
 
-func (dm *dummy) ConfDir() string {
+// ConfDir 配置文件路径
+func (dm *DummyApp) ConfDir() string {
 	return dm.confDir
 }
 
-func (dm *dummy) Configure() *conf.Configure {
+// Configure 获取Configure对象
+func (dm *DummyApp) Configure() *conf.Configure {
 	return nil
 }
 
-func (dm *dummy) OnRewriteConfigure() error {
+// OnRewriteConfigure 重写配置文件回调接口
+func (dm *DummyApp) OnRewriteConfigure() error {
 	return errUnsupported
 }
 
-func (dm *dummy) OnConnect() {
+// OnConnect 连接成功时的回调接口
+func (dm *DummyApp) OnConnect() {
 }
 
-func (dm *dummy) OnDisconnect() {
+// OnDisconnect 连接断开时的回调接口
+func (dm *DummyApp) OnDisconnect() {
 }
 
-func (dm *dummy) OnReportMonitor() {
+// OnReportMonitor 上报监控数据时的回调接口
+func (dm *DummyApp) OnReportMonitor() {
 }
 
-func (dm *dummy) OnMessage(*anet.Msg) error {
+// OnMessage 收到数据时的回调接口
+func (dm *DummyApp) OnMessage(*anet.Msg) error {
 	return errUnsupported
 }
 
-func (dm *dummy) LoopWrite(context.Context, chan *anet.Msg) error {
+// LoopWrite 发送数据的回调接口
+func (dm *DummyApp) LoopWrite(context.Context, chan *anet.Msg) error {
 	return errUnsupported
 }
