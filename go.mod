@@ -2,7 +2,7 @@ module github.com/jkstack/libagent
 
 go 1.17
 
-replace github.com/kardianos/service => github.com/lwch/service v1.2.1-fixtag
+replace github.com/kardianos/service => github.com/lwch/service v1.2.1-1
 
 require (
 	github.com/btcsuite/winsvc v1.0.0
