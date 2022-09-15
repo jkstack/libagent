@@ -2,6 +2,8 @@ module github.com/jkstack/libagent
 
 go 1.17
 
+replace github.com/kardianos/service => github.com/lwch/service v1.2.1-fixtag
+
 require (
 	github.com/btcsuite/winsvc v1.0.0
 	github.com/containerd/cgroups v1.0.4
@@ -9,7 +11,7 @@ require (
 	github.com/gorilla/websocket v1.5.0
 	github.com/jkstack/anet v0.0.0-20220902094756-01577713a50a
 	github.com/jkstack/jkframe v1.0.8
-	github.com/lwch/service v1.99.99
+	github.com/kardianos/service v0.0.0-00010101000000-000000000000
 	github.com/opencontainers/runtime-spec v1.0.2
 	github.com/shirou/gopsutil v3.21.11+incompatible
 	github.com/shirou/gopsutil/v3 v3.22.7

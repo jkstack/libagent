@@ -6,7 +6,7 @@ package agent
 import (
 	rt "runtime"
 
-	"github.com/lwch/service"
+	"github.com/kardianos/service"
 )
 
 type svr struct {
