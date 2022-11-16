@@ -100,3 +100,12 @@ func Status(app App) (service.Status, error) {
 	}
 	return svc.Status()
 }
+
+// Restart 重启agent
+func Restart(app App) error {
+	svc, err := newService(app)
+	if err != nil {
+		return err
+	}
+	return svc.Restart()
+}

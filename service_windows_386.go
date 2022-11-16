@@ -185,3 +185,11 @@ func (svr *svr) Status() (service.Status, error) {
 		return service.StatusUnknown, nil
 	}
 }
+
+func (svr *svr) Restart() error {
+	err := svr.Stop()
+	if err != nil {
+		return err
+	}
+	return svr.Start()
+}
