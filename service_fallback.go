@@ -25,7 +25,7 @@ func newService(app App) (builtinService, error) {
 		DisplayName:  app.AgentName(),
 		Description:  app.AgentName(),
 		UserName:     user,
-		Arguments:    []string{"-conf", app.ConfDir()},
+		Arguments:    []string{"--conf", app.ConfDir()},
 		Dependencies: depends,
 	}
 	return service.New(&svr{app: newApp(app)}, appCfg)
