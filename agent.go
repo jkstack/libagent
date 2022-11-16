@@ -7,6 +7,7 @@ import (
 	"github.com/jkstack/anet"
 	"github.com/jkstack/libagent/conf"
 	"github.com/jkstack/libagent/internal/utils"
+	"github.com/kardianos/service"
 )
 
 // App app 接口，每一个agent必须实现以下接口
@@ -89,4 +90,13 @@ func Stop(app App) error {
 		return err
 	}
 	return svc.Stop()
+}
+
+// Status 获取服务状态
+func Status(app App) (service.Status, error) {
+	svc, err := newService(app)
+	if err != nil {
+		return service.StatusUnknown, err
+	}
+	return svc.Status()
 }

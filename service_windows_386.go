@@ -9,6 +9,7 @@ import (
 	"github.com/btcsuite/winsvc/mgr"
 	"github.com/btcsuite/winsvc/svc"
 	"github.com/jkstack/jkframe/logging"
+	"github.com/kardianos/service"
 )
 
 type svr struct {
@@ -156,4 +157,31 @@ func (svr *svr) Execute(args []string, r <-chan svc.ChangeRequest, changes chan<
 
 func (svr *svr) Platform() string {
 	return "windows-service"
+}
+
+func (svr *svr) Status() (service.Status, error) {
+	m, err := mgr.Connect()
+	if err != nil {
+		logging.Error("mgr connect: %v", err)
+		return service.StatusUnknown, err
+	}
+	defer m.Disconnect()
+	s, err := m.OpenService(svr.agentName)
+	if err != nil {
+		return service.StatusUnknown, fmt.Errorf("could not access service: %v", err)
+	}
+	defer s.Close()
+	status, err := s.Query()
+	if err != nil {
+		logging.Error("query status: %v", err)
+		return service.StatusUnknown, fmt.Errorf("could not retrieve service status: %v", err)
+	}
+	switch status.State {
+	case svc.Stopped:
+		return service.StatusStopped, nil
+	case svc.Running:
+		return service.StatusRunning, nil
+	default:
+		return service.StatusUnknown, nil
+	}
 }
