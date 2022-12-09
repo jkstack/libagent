@@ -107,5 +107,12 @@ func Restart(app App) error {
 	if err != nil {
 		return err
 	}
+	status, err := svc.Status()
+	if err != nil {
+		return err
+	}
+	if status == service.StatusStopped {
+		return svc.Start()
+	}
 	return svc.Restart()
 }
