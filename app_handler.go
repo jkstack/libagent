@@ -38,6 +38,11 @@ func (app *app) read(ctx context.Context, cancel context.CancelFunc, conn *webso
 			return
 		}
 
+		next := app.handleSystemPacket(&msg)
+		if !next {
+			continue
+		}
+
 		app.chRead <- &msg
 	}
 }

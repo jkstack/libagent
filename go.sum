@@ -28,8 +28,8 @@ github.com/gorilla/websocket v1.5.0 h1:PPwGk2jz7EePpoHN/+ClbZu8SPxiqlu12wZP/3sWm
 github.com/gorilla/websocket v1.5.0/go.mod h1:YR8l580nyteQvAITg2hZ9XVh4b55+EU/adAjf1fMHhE=
 github.com/jkstack/anet v0.0.0-20230206080421-e4bd2e304c2e h1:wMQuhQkz1v2xmhTi1TPCYqbws3dLL5otVQY59Zqd490=
 github.com/jkstack/anet v0.0.0-20230206080421-e4bd2e304c2e/go.mod h1:L9J4lHwDxTsCPX5MNaVa/0UG36JIiDWIJxlp3jmCQxQ=
-github.com/jkstack/jkframe v1.2.2 h1:JKeb7Dg0HpyBIap4ZZ88nloojR+WvPFYy1V1jh67p10=
-github.com/jkstack/jkframe v1.2.2/go.mod h1:9f/mU26CFA4eBx/Zp8EZtuZxTS+4zokiO7yhuMl2zTA=
+github.com/jkstack/jkframe v1.3.0 h1:BV9PTUMJ1fbqYoRjdDQFk2kp3akgFBczc30rxbMr7Qg=
+github.com/jkstack/jkframe v1.3.0/go.mod h1:9f/mU26CFA4eBx/Zp8EZtuZxTS+4zokiO7yhuMl2zTA=
 github.com/kr/pretty v0.3.1 h1:flRD4NNwYAUpkphVc1HcthR4KEIFJ65n8Mw5qdRn3LE=
 github.com/kr/text v0.2.0 h1:5Nx0Ya0ZqY2ygV366QzturHI13Jq95ApcVaJBhpS+AY=
 github.com/lufia/plan9stats v0.0.0-20211012122336-39d0f177ccd0/go.mod h1:zJYVVT2jmtg6P3p1VtQj7WsuWi/y4VnjVBn7F8KPB3I=
