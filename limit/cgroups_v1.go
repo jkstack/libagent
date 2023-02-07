@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/containerd/cgroups"
+	"github.com/containerd/cgroups/v3/cgroup1"
 	"github.com/dustin/go-humanize"
 	"github.com/jkstack/jkframe/logging"
 	"github.com/opencontainers/runtime-spec/specs-go"
@@ -20,7 +20,7 @@ func (cfg *Configure) doV1(agentName string) {
 	}
 	logging.Info("use cgroups_v1")
 	dir := "/jkstack/agent/" + agentName
-	group, err := cgroups.New(cgroups.V1, cgroups.StaticPath(dir), &specs.LinuxResources{})
+	group, err := cgroup1.New(cgroup1.StaticPath(dir), &specs.LinuxResources{})
 	if err != nil {
 		logging.Warning("can not create cgroup %s: %v", dir, err)
 		return
@@ -28,7 +28,7 @@ func (cfg *Configure) doV1(agentName string) {
 	limitCPUV1(group, cfg.CPUQuota)
 	limitMemoryV1(group, int64(cfg.Memory))
 	limitDiskV1(group, cfg.Disks)
-	err = group.Add(cgroups.Process{
+	err = group.Add(cgroup1.Process{
 		Pid: os.Getpid(),
 	})
 	if err != nil {
@@ -50,7 +50,7 @@ func wantCGroup(cfg *Configure) bool {
 	return false
 }
 
-func limitCPUV1(group cgroups.Cgroup, limit int64) {
+func limitCPUV1(group cgroup1.Cgroup, limit int64) {
 	quota := limit * 1000
 	err := group.Update(&specs.LinuxResources{
 		CPU: &specs.LinuxCPU{
@@ -64,7 +64,7 @@ func limitCPUV1(group cgroups.Cgroup, limit int64) {
 	logging.Info("set cpu_quota to %d%%", limit)
 }
 
-func limitMemoryV1(group cgroups.Cgroup, limit int64) {
+func limitMemoryV1(group cgroup1.Cgroup, limit int64) {
 	err := group.Update(&specs.LinuxResources{
 		Memory: &specs.LinuxMemory{
 			Limit: &limit,
@@ -78,7 +78,7 @@ func limitMemoryV1(group cgroups.Cgroup, limit int64) {
 	logging.Info("set memory_limit to %s", humanize.IBytes(uint64(limit)))
 }
 
-func limitDiskV1(group cgroups.Cgroup, limits diskLimits) {
+func limitDiskV1(group cgroup1.Cgroup, limits diskLimits) {
 	var block specs.LinuxBlockIO
 	for _, disk := range limits {
 		write := func(value uint64, target []specs.LinuxThrottleDevice) []specs.LinuxThrottleDevice {

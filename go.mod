@@ -6,7 +6,7 @@ replace github.com/kardianos/service => github.com/lwch/service v1.2.1-1
 
 require (
 	github.com/btcsuite/winsvc v1.0.0
-	github.com/containerd/cgroups v1.1.0
+	github.com/containerd/cgroups/v3 v3.0.1
 	github.com/dustin/go-humanize v1.0.1
 	github.com/gorilla/websocket v1.5.0
 	github.com/jkstack/anet v0.0.0-20230206080421-e4bd2e304c2e
@@ -23,7 +23,6 @@ require (
 	github.com/docker/go-units v0.5.0 // indirect
 	github.com/go-ole/go-ole v1.2.6 // indirect
 	github.com/godbus/dbus/v5 v5.1.0 // indirect
-	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/lufia/plan9stats v0.0.0-20230110061619-bbe2e5e100de // indirect
 	github.com/power-devops/perfstat v0.0.0-20221212215047-62379fc7944b // indirect
 	github.com/sirupsen/logrus v1.9.0 // indirect
@@ -31,5 +30,6 @@ require (
 	github.com/tklauser/numcpus v0.6.0 // indirect
 	github.com/yusufpapurcu/wmi v1.2.2 // indirect
 	golang.org/x/sys v0.5.0 // indirect
+	google.golang.org/protobuf v1.27.1 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )

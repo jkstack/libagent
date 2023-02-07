@@ -3,7 +3,7 @@
 
 package limit
 
-import "github.com/containerd/cgroups"
+import "github.com/containerd/cgroups/v3"
 
 // Do set cgroups limit
 func (cfg *Configure) Do(agentName string) {
