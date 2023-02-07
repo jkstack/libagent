@@ -13,7 +13,6 @@ require (
 	github.com/jkstack/jkframe v1.2.2
 	github.com/kardianos/service v1.2.1
 	github.com/opencontainers/runtime-spec v1.0.2
-	github.com/shirou/gopsutil v3.21.11+incompatible
 	github.com/shirou/gopsutil/v3 v3.23.1
 )
 

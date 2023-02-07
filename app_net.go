@@ -12,8 +12,8 @@ import (
 	"github.com/jkstack/jkframe/logging"
 	"github.com/jkstack/libagent/internal/hostinfo"
 	"github.com/jkstack/libagent/internal/utils"
-	"github.com/shirou/gopsutil/cpu"
-	"github.com/shirou/gopsutil/mem"
+	"github.com/shirou/gopsutil/v3/cpu"
+	"github.com/shirou/gopsutil/v3/mem"
 )
 
 var dialer = websocket.Dialer{
