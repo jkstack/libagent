@@ -47,6 +47,8 @@ func newApp(a App) *app {
 }
 
 func (app *app) start() {
+	app.rel2abs()
+
 	app.initLogging()
 	defer logging.Flush()
 
@@ -142,5 +144,23 @@ func (app *app) debug(ctx context.Context) {
 				logging.Info("write channel size: %d", len(app.chWrite))
 			}
 		}
+	}
+}
+
+func (app *app) rel2abs() {
+	exe, err := os.Executable()
+	if err != nil {
+		logging.Error("get executable file dir: %v", err)
+		return
+	}
+	trans := func(dir string) string {
+		if !filepath.IsAbs(dir) {
+			return filepath.Join(filepath.Dir(exe), dir)
+		}
+		return dir
+	}
+	cfg := app.a.Configure()
+	if len(cfg.Log.Dir) > 0 {
+		cfg.Log.Dir = trans(cfg.Log.Dir)
 	}
 }
