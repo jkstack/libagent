@@ -61,7 +61,9 @@ func (app *app) write(ctx context.Context, cancel context.CancelFunc, conn *webs
 				return
 			}
 
+			app.mWriteLock.Lock()
 			err = conn.WriteMessage(websocket.TextMessage, data)
+			app.mWriteLock.Unlock()
 			if err != nil {
 				logging.Error("write message: %v", err)
 				return
@@ -89,7 +91,9 @@ func (app *app) keepalive(ctx context.Context, conn *websocket.Conn) {
 		case <-ctx.Done():
 			return
 		case <-tk.C:
+			app.mWriteLock.Lock()
 			conn.WriteControl(websocket.PingMessage, nil, time.Now().Add(2*time.Second))
+			app.mWriteLock.Unlock()
 		}
 	}
 }

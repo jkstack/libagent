@@ -6,6 +6,7 @@ import (
 	"os"
 	"path/filepath"
 	rt "runtime"
+	"sync"
 	"time"
 
 	"github.com/jkstack/anet"
@@ -22,9 +23,10 @@ type app struct {
 	chWrite chan *anet.Msg
 
 	// runtime
-	ctx       context.Context
-	cancel    context.CancelFunc
-	connected bool
+	ctx        context.Context
+	cancel     context.CancelFunc
+	connected  bool
+	mWriteLock sync.Mutex
 
 	// monitor
 	inPackets, inBytes   uint64
