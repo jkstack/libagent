@@ -10,7 +10,7 @@ require (
 	github.com/dustin/go-humanize v1.0.1
 	github.com/gorilla/websocket v1.5.0
 	github.com/jkstack/anet v0.0.0-20230207071751-5a225913e4b2
-	github.com/jkstack/jkframe v1.3.0
+	github.com/jkstack/jkframe v1.4.4
 	github.com/kardianos/service v1.2.1
 	github.com/opencontainers/runtime-spec v1.0.2
 	github.com/shirou/gopsutil/v3 v3.23.1
