@@ -37,6 +37,9 @@ type App interface {
 	// 返回数据包时的回调函数，该函数必须是一个循环，
 	// 且在有数据需要返回时将其放入第二个参数中的队列内
 	LoopWrite(context.Context, chan *anet.Msg) error
+
+	// 服务退出信号
+	OnStop()
 }
 
 func deferCallback(name string, fn func()) {

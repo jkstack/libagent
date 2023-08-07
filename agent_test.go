@@ -47,6 +47,9 @@ func (a *agent) LoopWrite(context.Context, chan *anet.Msg) error {
 	select {}
 }
 
+func (a *agent) OnStop() {
+}
+
 func TestRestart(t *testing.T) {
 	Restart(&agent{})
 }

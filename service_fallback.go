@@ -38,5 +38,6 @@ func (svr *svr) Start(s service.Service) error {
 
 func (svr *svr) Stop(s service.Service) error {
 	svr.app.stop()
+	svr.app.a.OnStop()
 	return nil
 }
