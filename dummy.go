@@ -74,3 +74,7 @@ func (dm *DummyApp) OnMessage(*anet.Msg) error {
 func (dm *DummyApp) LoopWrite(context.Context, chan *anet.Msg) error {
 	return errUnsupported
 }
+
+// OnStop 服务退出信号
+func (dm *DummyApp) OnStop() {
+}
