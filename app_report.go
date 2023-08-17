@@ -8,9 +8,13 @@ import (
 	"time"
 
 	"github.com/jkstack/anet"
+	"github.com/jkstack/jkframe/utils"
 )
 
 func (app *app) report() {
+	if app.a.Configure().Monitor.Interval <= 0 {
+		app.a.Configure().Monitor.Interval = utils.Duration(5 * time.Second)
+	}
 	for {
 		time.Sleep(app.a.Configure().Monitor.Interval.Duration())
 		if !app.connected {
