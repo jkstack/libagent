@@ -107,6 +107,23 @@ func (app *app) stop() {
 
 func (app *app) initLogging() {
 	var cfg logging.SizeRotateConfig
+	logLevel, ok := os.LookupEnv("JKFRAME_LOG_LEVEL")
+	if ok {
+		switch logLevel {
+		case "debug":
+			cfg.Level = logging.LevelDebug
+		case "info":
+			cfg.Level = logging.LevelInfo
+		case "warn":
+			cfg.Level = logging.LevelWarn
+		case "error":
+			cfg.Level = logging.LevelError
+		default:
+			cfg.Level = logging.LevelInfo
+		}
+	} else {
+		cfg.Level = logging.LevelInfo
+	}
 	cfg.WriteStdout = app.a.Configure().Log.Target.SupportStdout()
 	cfg.WriteFile = app.a.Configure().Log.Target.SupportFile()
 	if rt.GOOS == "windows" {
